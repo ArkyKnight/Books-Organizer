@@ -1,0 +1,16 @@
+{
+    "books": [
+        {
+            "name_of_book": "pragmatic.pdf",
+            "number_of_pages": 0
+        },
+        {
+            "name_of_book": "Reglamento de titulaci\u00f3n.pdf",
+            "number_of_pages": 0
+        },
+        {
+            "name_of_book": "Resident Evil 01 - The Umbrella Conspiracy (S.D. Perry) (z-library.sk, 1lib.sk, z-lib.sk).pdf",
+            "number_of_pages": 9
+        }
+    ]
+}
