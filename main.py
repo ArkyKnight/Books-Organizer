@@ -12,15 +12,20 @@ root.title("GENESIS")
 root.geometry('1200x750')
 root.configure(bg='black')
 
-
-
-
-
-
-folder_path = Path("books")
+b_storage_dir = "books"
+folder_path = Path(b_storage_dir)
 first_book = next(folder_path.iterdir(), None)
 doc = pymupdf.open(first_book)
 
+try:
+    os.mkdir(b_storage_dir)
+    print(f"Directory {b_storage_dir} created successfully")
+except FileExistsError:
+    print(f"Directory {b_storage_dir} already exists, no need to create it again.")
+except PermissionError:
+    print(f"Permission denied: Unable to create the directory {b_storage_dir}")
+except Exception as e:
+    print(f"An error occurred: {e}")
 
 #Inicializacion de pagina de pdfs.
 current_page = 0
@@ -57,7 +62,6 @@ def change_page(next = True, update_only = False):
     tkimg = ImageTk.PhotoImage(img)
 
     pdf_pages_label.config(image=tkimg)
-
 
     pdf_pages_label.image = tkimg
     number_of_pages_counter.configure(text= current_page + 1)
@@ -163,7 +167,7 @@ button_frame.grid(row = 1, column = 0, sticky = 'nsew', padx=10, pady=10)
 button_frame.columnconfigure(0, weight=1)
 button_frame.rowconfigure(0, weight=1)
 
-canvas = Canvas(button_frame, bg='#454545', scrollregion=(0, 0, 2000, 5000))
+canvas = Canvas(button_frame, bg='#454545',bd=0,highlightthickness=0, scrollregion=(0, 0, 2000, 5000))
 scrollbar = ttk.Scrollbar(button_frame, orient='vertical', command=canvas.yview)
 canvas.configure(yscrollcommand=scrollbar.set)
 
@@ -171,10 +175,10 @@ canvas.grid(row=0, column=0, sticky="nsew")
 scrollbar.place(relx=1, rely=0, relheight=1, anchor='ne')
 
 # Frame interno donde van los botones
-inner_frame = ttk.Frame(canvas, style="CustomColor.TFrame")
+inner_frame = ttk.Frame(canvas,style="CustomColor.TFrame")
 inner_frame.columnconfigure(0, weight=1)
 inner_frame.rowconfigure(0, weight=1)
-canvas.create_window((0, 0), window=inner_frame, anchor='nw')
+canvas.create_window((10, 10), window=inner_frame, anchor='nw')
 
 for row, i in enumerate(folder_path.iterdir(), start=1):
     book_name = i.name
@@ -236,7 +240,8 @@ root.rowconfigure(0, weight= 1, uniform='a')
 frame_two.grid(row = 0, column = 1, sticky = 'nsew' )
 frame_one.grid(row = 0 ,column = 0, sticky='nsew',padx=10,pady=10)
 frame_one.columnconfigure(0, weight=1, uniform='a')
-frame_one.rowconfigure((0,1), weight=1, uniform='a')
+frame_one.rowconfigure(0, weight=1, uniform='a')
+frame_one.rowconfigure(1, weight=8, uniform='a')
 
 
 frame_two.columnconfigure(0, weight=2, uniform='a') #Configuracion de columnas panel derecho
